@@ -1,64 +1,81 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useHistory } from "react-router";
 import { routeProfile } from "../../routes";
 import setCookie from "../../services/setCookie";
+import "./styles.scss";
 
 const RegisterForm = () => {
   const history = useHistory();
 
-  const [inpLogValue, setInpLogValue] = useState("");
-  const [inpPassValue, setInpPassValue] = useState("");
-  const [isInpLogError, setIsInpLogError] = useState(false);
-  const [isInpPassError, setIsInpPassError] = useState(false);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
-      !isInpLogError &&
-      !isInpPassError &&
-      inpPassValue.length > 0 &&
-      inpLogValue.length > 0
+      !loginError &&
+      !passwordError &&
+      login.length > 0 &&
+      password.length > 0
     ) {
-      setCookie("login", "true");
+      setCookie("token", Date.now.toString());
       history.push(routeProfile);
     }
   };
 
-  const handleChangeLog = (e: any) => {
-    setInpLogValue(e.target.value);
+  const handleChangeLogin = (e: ChangeEvent<HTMLInputElement>) => {
+    setLogin(e.target.value);
     if (e.target.value.length > 4) {
-      setIsInpLogError(false);
+      setLoginError(false);
     } else {
-      setIsInpLogError(true);
+      setLoginError(true);
     }
   };
 
-  const handleChangePass = (e: any) => {
-    setInpPassValue(e.target.value);
+  const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
     if (e.target.value.length >= 8) {
-      setIsInpPassError(false);
+      setPasswordError(false);
     } else {
-      setIsInpPassError(true);
+      setPasswordError(true);
     }
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <input
-        type="text"
-        value={inpLogValue}
-        onChange={(e) => handleChangeLog(e)}
-        placeholder="login"
-      />
-      {isInpLogError ? <p>Invalid input data</p> : ""}
-      <input
-        type="password"
-        value={inpPassValue}
-        onChange={(e) => handleChangePass(e)}
-        placeholder="password"
-      />
-      {isInpPassError ? <p>Invalid input data</p> : ""}
-      <button type="submit">Send form</button>
+    <form className="login__form" onSubmit={(e) => handleSubmit(e)}>
+      <div className="login__wrapper">
+        <input
+          className="login__input"
+          type="text"
+          value={login}
+          onChange={(e) => handleChangeLogin(e)}
+          placeholder="login"
+        />
+        {loginError ? (
+          <span className="login__error">Invalid input data</span>
+        ) : (
+          ""
+        )}
+      </div>
+      <div className="login__wrapper">
+        <input
+          className="login__input"
+          type="password"
+          value={password}
+          onChange={(e) => handleChangePassword(e)}
+          placeholder="password"
+        />
+        {passwordError ? (
+          <span className="login__error">Invalid input data</span>
+        ) : (
+          ""
+        )}
+      </div>
+      <button type="submit" className="login__btn">
+        Send form
+      </button>
     </form>
   );
 };

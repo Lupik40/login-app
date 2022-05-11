@@ -1,25 +1,12 @@
-import React, { useEffect } from "react";
-import { useHistory } from "react-router";
-import { routeProfile } from "../../routes";
-import getCookie from "../../services/getCookie";
+import React from "react";
 import RegisterForm from "../../components/RegisterForm";
+import "./styles.scss";
 
-const LoginPage = () => {
-  const history = useHistory();
-
-  useEffect(() => {
-    const loginCookie = getCookie("login");
-    if (loginCookie !== undefined && loginCookie.length > 0) {
-      history.push(routeProfile);
-    }
-  }, []);
-
-  return (
-    <div>
-      <h1>Login page</h1>
-      <RegisterForm />
-    </div>
-  );
-};
+const LoginPage = () => (
+  <div className="login">
+    <h1 className="login__title">Login page</h1>
+    <RegisterForm />
+  </div>
+);
 
 export default LoginPage;

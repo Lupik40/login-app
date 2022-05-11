@@ -1,28 +1,24 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 import { routeLogin } from "../../routes/index";
-import getCookie from "../../services/getCookie";
 import deleteCookie from "../../services/deleteCookie";
+import "./styles.scss";
 
 const ProfilePage = () => {
   const history = useHistory();
 
   const logoutHandler = () => {
-    deleteCookie("login");
+    deleteCookie("token");
     history.push(routeLogin);
   };
 
-  useEffect(() => {
-    const loginCookie = getCookie("login");
-    if (loginCookie === undefined || loginCookie.length < 1) {
-      history.push(routeLogin);
-    }
-  }, []);
-
   return (
-    <div>
-      <h1>Your profile</h1>
-      <button onClick={logoutHandler}>Logout</button>
+    <div className="profile">
+      <h1 className="profile__title">Your profile</h1>
+      <p className="profile__text">You went to the personal account</p>
+      <button className="profile__btn" type="button" onClick={logoutHandler}>
+        Logout
+      </button>
     </div>
   );
 };

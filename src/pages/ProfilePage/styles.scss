@@ -1,0 +1,16 @@
+.profile {
+  &__title {
+    text-align: center;
+  }
+
+  &__text {
+    text-align: center;
+  }
+
+  &__btn {
+    display: block;
+    margin: 40px auto 0;
+    padding: 5px 40px;
+    cursor: pointer;
+  }
+}
