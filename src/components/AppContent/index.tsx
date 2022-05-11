@@ -1,23 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { useHistory } from "react-router";
+import useAuth from "../../hooks/useAuth";
 import { routeLogin, routeProfile } from "../../routes/index";
-import getCookie from "../../services/getCookie";
 import LoginPage from "../../pages/LoginPage/index";
 import ProfilePage from "../../pages/ProfilePage/index";
+import "./styles.scss";
 
 const AppContent = () => {
-  const history = useHistory();
-
-  useEffect(() => {
-    const loginCookie = getCookie("login");
-    if (loginCookie !== undefined && loginCookie.length > 0) {
-      history.push(routeProfile);
-    }
-  }, []);
+  useAuth();
 
   return (
-    <div>
+    <div className="container">
       <Switch>
         <Route exact path={routeLogin} component={LoginPage} />
         <Route exact path={routeProfile} component={ProfilePage} />
